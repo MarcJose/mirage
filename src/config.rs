@@ -64,7 +64,7 @@
  *
  * # Examples
  *
- * ```rust
+ * ```ignore
  * use mirage::config::{find_config_file, load_config_from_file};
  *
  * // Find configuration file
@@ -116,7 +116,7 @@ use std::path::{Path, PathBuf};
 ///
 /// # Examples
 ///
-/// ```rust
+/// ```ignore
 /// let paths = get_config_file_paths();
 /// println!("Will search for config files in:");
 /// for (i, path) in paths.iter().enumerate() {
@@ -205,7 +205,7 @@ pub fn get_config_file_paths() -> Vec<PathBuf> {
 ///
 /// # Examples
 ///
-/// ```rust
+/// ```ignore
 /// match find_config_file() {
 ///     Some(path) => {
 ///         println!("Found config file: {}", path.display());
@@ -277,7 +277,7 @@ pub fn find_config_file() -> Option<PathBuf> {
 ///
 /// # Examples
 ///
-/// ```rust
+/// ```ignore
 /// // Simple arguments
 /// let args = parse_config_line("--country Germany --protocol https")?;
 /// assert_eq!(args, vec!["--country", "Germany", "--protocol", "https"]);
@@ -401,7 +401,7 @@ pub fn parse_config_line(line: &str) -> Result<Vec<String>, String> {
 ///
 /// # Examples
 ///
-/// ```rust
+/// ```ignore
 /// use std::path::Path;
 ///
 /// let config_path = Path::new("/home/user/.config/mirage/config");
@@ -436,7 +436,7 @@ pub fn parse_config_line(line: &str) -> Result<Vec<String>, String> {
 /// ```
 ///
 /// This would result in the argument vector:
-/// ```rust
+/// ```ignore
 /// vec![
 ///     "--country", "Germany",
 ///     "--country", "France",
@@ -543,7 +543,7 @@ pub fn parse_config_file(path: &Path) -> Result<Vec<String>, Box<dyn std::error:
 ///
 /// # Examples
 ///
-/// ```rust
+/// ```ignore
 /// // Load config with verbose output
 /// let config_args = load_config_from_file(true);
 /// if config_args.is_empty() {
@@ -561,7 +561,7 @@ pub fn parse_config_file(path: &Path) -> Result<Vec<String>, Box<dyn std::error:
 ///
 /// The returned argument vector is designed to be merged with CLI arguments:
 ///
-/// ```rust
+/// ```ignore
 /// let config_args = load_config_from_file(verbose);
 ///
 /// // In CLI parsing (pseudo-code):

@@ -828,8 +828,8 @@ fn save_mirrorlist_to_file(mirrors: &[Mirror], path: &str, config: &Config) -> R
     content.push('\n');
 
     for mirror in mirrors {
-        let _ = writeln!(content, "# {}: {}", mirror.country, mirror.url);
-        let _ = writeln!(content, "Server = {}", mirror.url);
+        let _ = writeln!(content, "# {}", mirror.country);
+        let _ = writeln!(content, "Server = {}$repo/os/$arch", mirror.url);
         content.push('\n');
     }
 
@@ -1123,8 +1123,8 @@ fn generate_mirrorlist(mirrors: &[Mirror], config: &Config) {
         println!();
 
         for mirror in mirrors {
-            println!("# {}: {}", mirror.country, mirror.url);
-            println!("Server = {}", mirror.url);
+            println!("# {}", mirror.country);
+            println!("Server = {}$repo/os/$arch", mirror.url);
             println!();
         }
     }

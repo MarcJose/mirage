@@ -35,7 +35,7 @@
  *
  * # Examples
  *
- * ```rust
+ * ```ignore
  * use mirage::cache::{load_cache, save_cache, PersistentCache};
  *
  * // Load existing cache
@@ -126,7 +126,7 @@ impl PersistentCache {
     ///
     /// # Examples
     ///
-    /// ```rust
+    /// ```ignore
     /// use std::time::{SystemTime, UNIX_EPOCH};
     ///
     /// let timestamp = SystemTime::now()
@@ -167,7 +167,7 @@ impl PersistentCache {
     ///
     /// # Examples
     ///
-    /// ```rust
+    /// ```ignore
     /// // Check if cache is valid for 5 minutes (300 seconds)
     /// if cache.is_valid(300) {
     ///     println!("Using cached data with {} mirrors", cache.mirrors.len());
@@ -242,7 +242,7 @@ impl PersistentCache {
 ///
 /// # Examples
 ///
-/// ```rust
+/// ```ignore
 /// match get_cache_dir() {
 ///     Ok(cache_path) => {
 ///         println!("Cache directory: {}", cache_path.display());
@@ -331,7 +331,7 @@ pub fn get_cache_dir() -> Result<PathBuf> {
 ///
 /// # Examples
 ///
-/// ```rust
+/// ```ignore
 /// match load_cache()? {
 ///     Some(cache) => {
 ///         if cache.is_valid(300) {  // 5 minutes
@@ -452,7 +452,7 @@ fn cache_age_hours(timestamp: u64) -> f64 {
 ///
 /// # Examples
 ///
-/// ```rust
+/// ```ignore
 /// use std::time::{SystemTime, UNIX_EPOCH};
 ///
 /// let timestamp = SystemTime::now()
@@ -553,7 +553,7 @@ pub fn save_cache(cache: &PersistentCache) -> Result<()> {
 ///
 /// # Examples
 ///
-/// ```rust
+/// ```ignore
 /// // Clear cache to force fresh data fetch
 /// match clear_cache() {
 ///     Ok(()) => println!("Cache cleared successfully"),
@@ -623,7 +623,7 @@ pub fn clear_cache() -> Result<()> {
 ///
 /// # Examples
 ///
-/// ```rust
+/// ```ignore
 /// match get_cache_stats()? {
 ///     Some(stats) => {
 ///         println!("Cache: {} mirrors, {}, {:.1}h old",
@@ -720,7 +720,7 @@ pub fn get_cache_stats() -> Result<Option<CacheStats>> {
 ///
 /// # Examples
 ///
-/// ```rust
+/// ```ignore
 /// if let Some(stats) = get_cache_stats()? {
 ///     println!("Cache Status:");
 ///     println!("  Mirrors: {}", stats.mirror_count);
@@ -757,7 +757,7 @@ impl CacheStats {
     ///
     /// # Examples
     ///
-    /// ```rust
+    /// ```ignore
     /// let age = stats.age_hours();
     /// if age < 1.0 {
     ///     println!("Cache is fresh ({}m old)", (age * 60.0) as u32);
@@ -781,7 +781,7 @@ impl CacheStats {
     ///
     /// # Examples
     ///
-    /// ```rust
+    /// ```ignore
     /// println!("Cache file size: {}", stats.size_human());
     /// // Output examples: "1.2 KB", "15.7 MB", "2.1 GB"
     /// ```

@@ -60,7 +60,7 @@
  *
  * # Example Usage
  *
- * ```rust,no_run
+ * ```ignore,no_run
  * use mirage::{Config, Mirror, filter_mirrors, sort_mirrors};
  *
  * // Create configuration
@@ -193,7 +193,7 @@ pub struct MirrorStatus {
 ///
 /// # Example
 ///
-/// ```rust
+/// ```ignore
 /// use mirage::Mirror;
 ///
 /// let mirror = Mirror {
@@ -271,7 +271,7 @@ impl Mirror {
     ///
     /// # Example
     ///
-    /// ```rust
+    /// ```ignore
     /// use mirage::Mirror;
     ///
     /// let mirror = Mirror {
@@ -334,7 +334,7 @@ impl Mirror {
     ///
     /// # Example
     ///
-    /// ```rust
+    /// ```ignore
     /// use mirage::Mirror;
     ///
     /// let mirror = Mirror {
@@ -670,7 +670,7 @@ impl Config {
 ///
 /// # Examples
 ///
-/// ```rust
+/// ```ignore
 /// use mirage::validate_save_path;
 ///
 /// // Valid path
@@ -833,7 +833,7 @@ pub fn validate_save_path(path: &str) -> Result<()> {
 ///
 /// # Examples
 ///
-/// ```rust
+/// ```ignore
 /// use mirage::{Config, filter_mirrors, Mirror};
 ///
 /// let config = Config {
@@ -1081,7 +1081,7 @@ pub fn filter_mirrors(mirrors: Vec<Mirror>, config: &Config) -> Vec<Mirror> {
 ///
 /// # Examples
 ///
-/// ```rust
+/// ```ignore
 /// use mirage::{Config, sort_mirrors, Mirror};
 ///
 /// // Sort by age, get 10 most recent

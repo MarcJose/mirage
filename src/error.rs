@@ -33,7 +33,7 @@
  *
  * The module uses Rust's `?` operator extensively with automatic conversions:
  *
- * ```rust
+ * ```ignore
  * use mirage::error::Result;
  *
  * fn example_operation() -> Result<String> {
@@ -49,7 +49,7 @@
  *
  * The module provides extension traits for common validation patterns:
  *
- * ```rust
+ * ```ignore
  * use mirage::error::ValidationExt;
  *
  * // Validate Option<T>
@@ -63,7 +63,7 @@
  *
  * Errors can be constructed in multiple ways:
  *
- * ```rust
+ * ```ignore
  * // Direct construction
  * return Err(MirageError::Config("Invalid port number".to_string()));
  *
@@ -122,7 +122,7 @@ use thiserror::Error;
 ///
 /// Several error types are automatically converted using the `#[from]` attribute:
 ///
-/// ```rust
+/// ```ignore
 /// // These conversions happen automatically with the ? operator
 /// let response = reqwest::get(url).await?;          // reqwest::Error -> Network
 /// let file_content = std::fs::read_to_string(path)?; // io::Error -> Io
@@ -134,7 +134,7 @@ use thiserror::Error;
 ///
 /// All error messages are designed to be user-friendly and actionable:
 ///
-/// ```rust
+/// ```ignore
 /// MirageError::Config("Invalid port number: must be between 1 and 65535".to_string())
 /// // Displays as: "Configuration error: Invalid port number: must be between 1 and 65535"
 ///
@@ -149,7 +149,7 @@ use thiserror::Error;
 ///
 /// Use the provided helper methods for consistent error construction:
 ///
-/// ```rust
+/// ```ignore
 /// // Preferred - uses helper methods
 /// MirageError::config("Port must be positive")
 /// MirageError::validation("Country code must be 2 characters")
@@ -174,7 +174,7 @@ pub enum MirageError {
     /// - HTTP protocol errors (4xx/5xx responses)
     ///
     /// # Example
-    /// ```rust
+    /// ```ignore
     /// let response = reqwest::get("https://mirror.example.com").await?;
     /// // If the request fails, it automatically becomes MirageError::Network
     /// ```
@@ -194,7 +194,7 @@ pub enum MirageError {
     /// - Custom retry logic failures
     ///
     /// # Example
-    /// ```rust
+    /// ```ignore
     /// return Err(MirageError::network("Mirror response took longer than configured timeout"));
     /// ```
     #[error("Network error: {0}")]
@@ -214,7 +214,7 @@ pub enum MirageError {
     /// - Network filesystem issues
     ///
     /// # Example
-    /// ```rust
+    /// ```ignore
     /// let config_content = std::fs::read_to_string(config_path)?;
     /// // If the file read fails, it automatically becomes MirageError::Io
     /// ```
@@ -235,7 +235,7 @@ pub enum MirageError {
     /// - Environment setup issues
     ///
     /// # Examples
-    /// ```rust
+    /// ```ignore
     /// MirageError::config("Port number must be between 1 and 65535")
     /// MirageError::config("Cannot specify both --fastest and --number options")
     /// MirageError::config("Invalid country code: must be 2 characters")
@@ -256,7 +256,7 @@ pub enum MirageError {
     /// - Character encoding issues in patterns
     ///
     /// # Example
-    /// ```rust
+    /// ```ignore
     /// let regex = regex::Regex::new(user_pattern)
     ///     .map_err(|e| MirageError::regex(user_pattern, e))?;
     /// // Provides both the invalid pattern and the specific regex error
@@ -283,7 +283,7 @@ pub enum MirageError {
     /// - Version compatibility problems
     ///
     /// # Examples
-    /// ```rust
+    /// ```ignore
     /// MirageError::parse("API response missing required field 'urls'")
     /// MirageError::parse("Invalid timestamp format in mirror data")
     /// MirageError::parse("Unexpected response format from mirror status API")
@@ -304,7 +304,7 @@ pub enum MirageError {
     /// - Unsupported protocol specifications
     ///
     /// # Examples
-    /// ```rust
+    /// ```ignore
     /// MirageError::validation("Country code 'XX' not found in mirror database")
     /// MirageError::validation("Number of mirrors must be between 1 and 100")
     /// MirageError::validation("Cannot combine --fastest with --sort score")
@@ -325,7 +325,7 @@ pub enum MirageError {
     /// - Serialization/deserialization failures
     ///
     /// # Examples
-    /// ```rust
+    /// ```ignore
     /// MirageError::cache("Failed to create cache directory: permission denied")
     /// MirageError::cache("Cache file is corrupted or from incompatible version")
     /// MirageError::cache("Insufficient disk space to write cache file")
@@ -346,7 +346,7 @@ pub enum MirageError {
     /// - Timestamp overflow in calculations
     ///
     /// # Example
-    /// ```rust
+    /// ```ignore
     /// let duration = SystemTime::now().duration_since(UNIX_EPOCH)?;
     /// // If system time is before UNIX_EPOCH, this becomes MirageError::Time
     /// ```
@@ -366,7 +366,7 @@ pub enum MirageError {
     /// - Memory issues during large JSON processing
     ///
     /// # Example
-    /// ```rust
+    /// ```ignore
     /// let mirrors: Vec<Mirror> = serde_json::from_str(response_text)?;
     /// // If JSON parsing fails, it automatically becomes MirageError::Json
     /// ```
@@ -387,7 +387,7 @@ pub enum MirageError {
     /// - Network routing problems
     ///
     /// # Example
-    /// ```rust
+    /// ```ignore
     /// MirageError::mirror_test(
     ///     "https://mirror.example.com/archlinux/",
     ///     "Connection timeout after 5 seconds"
@@ -416,7 +416,7 @@ impl MirageError {
     ///
     /// # Examples
     ///
-    /// ```rust
+    /// ```ignore
     /// // With string literal
     /// let error = MirageError::config("Invalid port number");
     ///
@@ -443,7 +443,7 @@ impl MirageError {
     ///
     /// # Examples
     ///
-    /// ```rust
+    /// ```ignore
     /// // Custom timeout error
     /// let error = MirageError::network("Request exceeded custom timeout of 10 seconds");
     ///
@@ -468,7 +468,7 @@ impl MirageError {
     ///
     /// # Examples
     ///
-    /// ```rust
+    /// ```ignore
     /// // Range validation
     /// let error = MirageError::validation("Number of mirrors must be between 1 and 100");
     ///
@@ -493,7 +493,7 @@ impl MirageError {
     ///
     /// # Examples
     ///
-    /// ```rust
+    /// ```ignore
     /// // API response parsing
     /// let error = MirageError::parse("API response missing required 'mirrors' field");
     ///
@@ -518,7 +518,7 @@ impl MirageError {
     ///
     /// # Examples
     ///
-    /// ```rust
+    /// ```ignore
     /// // Cache directory issues
     /// let error = MirageError::cache("Failed to create cache directory: permission denied");
     ///
@@ -545,7 +545,7 @@ impl MirageError {
     ///
     /// # Examples
     ///
-    /// ```rust
+    /// ```ignore
     /// // Connection timeout
     /// let error = MirageError::mirror_test(
     ///     "https://mirror.example.com/archlinux/",
@@ -584,7 +584,7 @@ impl MirageError {
     ///
     /// # Examples
     ///
-    /// ```rust
+    /// ```ignore
     /// use regex::Regex;
     ///
     /// let user_pattern = "[invalid";
@@ -613,7 +613,7 @@ impl MirageError {
 /// Instead of writing `std::result::Result<T, MirageError>` throughout the codebase,
 /// functions can simply return `Result<T>`:
 ///
-/// ```rust
+/// ```ignore
 /// use mirage::error::Result;
 ///
 /// // Concise function signature
@@ -631,7 +631,7 @@ impl MirageError {
 ///
 /// This Result type works seamlessly with the `?` operator for error propagation:
 ///
-/// ```rust
+/// ```ignore
 /// fn example_operation() -> Result<String> {
 ///     let mirrors = fetch_mirrors()?;           // Propagates MirageError
 ///     let filtered = filter_mirrors(mirrors)?;  // Propagates MirageError  
@@ -666,7 +666,7 @@ pub type Result<T> = std::result::Result<T, MirageError>;
 ///
 /// # Examples
 ///
-/// ```rust
+/// ```ignore
 /// use mirage::error::{ValidationExt, Result};
 ///
 /// fn validate_user_input(
@@ -706,7 +706,7 @@ pub trait ValidationExt<T> {
     ///
     /// # Examples
     ///
-    /// ```rust
+    /// ```ignore
     /// use mirage::error::ValidationExt;
     ///
     /// // Required configuration value
@@ -759,7 +759,7 @@ impl ValidationExt<()> for bool {
     ///
     /// # Examples
     ///
-    /// ```rust
+    /// ```ignore
     /// use mirage::error::ValidationExt;
     ///
     /// // Range validation

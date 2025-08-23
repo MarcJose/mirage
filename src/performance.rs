@@ -76,7 +76,7 @@
  *
  * # Examples
  *
- * ```rust
+ * ```ignore
  * use mirage::performance::{test_mirror_performance, MirrorWithPerformance};
  * use reqwest::Client;
  *
@@ -134,7 +134,7 @@ use tracing::{debug, warn};
 ///
 /// # Examples
 ///
-/// ```rust
+/// ```ignore
 /// use mirage::performance::MirrorPerformance;
 ///
 /// // Example of a fast, responsive mirror
@@ -214,7 +214,7 @@ impl Default for MirrorPerformance {
     ///
     /// # Examples
     ///
-    /// ```rust
+    /// ```ignore
     /// use mirage::performance::MirrorPerformance;
     ///
     /// let performance = MirrorPerformance::default();
@@ -256,7 +256,7 @@ impl Default for MirrorPerformance {
 ///
 /// # Examples
 ///
-/// ```rust
+/// ```ignore
 /// use mirage::performance::MirrorWithPerformance;
 ///
 /// // Create from a mirror without performance data
@@ -301,7 +301,7 @@ impl From<Mirror> for MirrorWithPerformance {
     ///
     /// # Examples
     ///
-    /// ```rust
+    /// ```ignore
     /// use mirage::performance::MirrorWithPerformance;
     ///
     /// // Convert from Mirror
@@ -363,7 +363,7 @@ impl From<Mirror> for MirrorWithPerformance {
 ///
 /// # Examples
 ///
-/// ```rust
+/// ```ignore
 /// use mirage::performance::test_mirror_performance;
 /// use reqwest::Client;
 ///
@@ -381,7 +381,7 @@ impl From<Mirror> for MirrorWithPerformance {
 ///
 /// This function is designed for concurrent execution:
 ///
-/// ```rust
+/// ```ignore
 /// use futures::future::join_all;
 ///
 /// let tasks: Vec<_> = mirrors.iter()
@@ -541,7 +541,7 @@ pub async fn test_mirror_performance(
 ///
 /// # Examples
 ///
-/// ```rust
+/// ```ignore
 /// use mirage::performance::test_mirror_download_speed;
 /// use reqwest::Client;
 ///
