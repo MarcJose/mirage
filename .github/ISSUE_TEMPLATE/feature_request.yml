@@ -1,0 +1,34 @@
+name: ✨ Feature Request
+description: Suggest a new feature or enhancement
+labels: [enhancement]
+body:
+  - type: input
+    id: summary
+    attributes:
+      label: Summary
+      description: Short description in Conventional Commit style (will guide PR title).
+      placeholder: "cli: add --sort-by-country option"
+    validations:
+      required: true
+
+  - type: textarea
+    id: motivation
+    attributes:
+      label: Motivation
+      description: Why is this feature useful? What problem does it solve?
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposed
+    attributes:
+      label: Proposed Solution
+      description: How should it work? Any CLI/API examples?
+    validations:
+      required: false
+
+  - type: textarea
+    id: extra
+    attributes:
+      label: Additional Context
+      placeholder: "References, related tools, screenshots..."

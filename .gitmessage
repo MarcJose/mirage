@@ -1,0 +1,50 @@
+
+# <type>(scope): <subject>
+# |<------------------------------------- max 100 characters ------------------------------------->|
+
+# <body>
+# |<--------------------------------- max 100 characters per line -------------------------------->|
+
+# <footer>
+# |<--------------------------------- max 100 characters per line -------------------------------->|
+
+# Types:
+# feat     ✨  A new feature
+# fix      🐛  A bug fix
+# docs     📚  Documentation only changes
+# style    💎  Changes that do not affect the meaning of the code
+# refactor 📦  A code change that neither fixes a bug nor adds a feature
+# perf     🚀  A code change that improves performance
+# test     🚨  Adding or correcting tests
+# build    🛠  Changes that affect the build system or external dependencies
+# ci       ⚙️  Changes to CI configuration files and scripts
+# chore    ♻️  Other changes that don't modify src or test files
+# revert   🗑  Reverts a previous commit
+#
+# Scopes (optional):
+# cli          Command-line interface and argument parsing
+# config       Configuration file parsing and management
+# cache        Caching system and cache management
+# performance  Mirror performance testing and rating
+# lib          Core library functionality (filtering, sorting, validation)
+# error        Error handling and error types
+# docs         Documentation (README, man pages, CONTRIBUTING, etc.)
+# test         Test files and test utilities
+# build        Build configuration (Cargo.toml, deny.toml)
+# completions  Shell completion files
+# packaging    PKGBUILD and distribution packaging
+# systemd      Systemd service and timer configurations
+# deps         Dependency updates and management
+
+# For the subject:
+# - Use imperative, present tense: "change" not "changed" nor "changes"
+# - Don't capitalize the first letter
+# - No period at the end
+
+# For the body:
+# - Explain the motivation for the change and how it differs from previous behavior
+
+# For the footer:
+# - BREAKING CHANGE: <description> (for breaking changes)
+# - fix #<issue> (to close an issue)
+# - re #<issue> (to reference an issue)

@@ -1,0 +1,35 @@
+version: 2
+updates:
+  # Enable version updates for Cargo dependencies
+  - package-ecosystem: "cargo"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "06:00"
+    open-pull-requests-limit: 10
+    commit-message:
+      prefix: "cargo"
+      include: "scope"
+    labels:
+      - "dependencies"
+      - "rust"
+    groups:
+      # Group major updates together  
+      major-updates:
+        patterns:
+          - "*"
+        update-types:
+          - "major"
+      # Group minor updates together  
+      minor-updates:
+        patterns:
+          - "*"
+        update-types:
+          - "minor"
+      # Group patch updates together
+      patch-updates:
+        patterns:
+          - "*"
+        update-types:
+          - "patch"

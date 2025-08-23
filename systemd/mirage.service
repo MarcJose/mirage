@@ -1,0 +1,56 @@
+[Unit]
+Description=Mirage mirror list updater
+Documentation=man:mirage(1)
+Wants=network-online.target
+After=network-online.target
+RequiresMountsFor=/etc/pacman.d
+
+[Service]
+Type=oneshot
+User=root
+Group=root
+
+# Security settings
+NoNewPrivileges=yes
+PrivateTmp=yes
+PrivateDevices=yes
+ProtectSystem=strict
+ProtectHome=yes
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+RestrictNamespaces=yes
+RestrictRealtime=yes
+RestrictSUIDSGID=yes
+LockPersonality=yes
+MemoryDenyWriteExecute=yes
+RemoveIPC=yes
+RestrictAddressFamilies=AF_INET AF_INET6
+
+# Allow writing to pacman mirrorlist and mirage config
+ReadWritePaths=/etc/pacman.d /var/log
+
+# Network access for fetching mirror data
+PrivateNetwork=no
+
+# Load configuration from file and execute mirage
+# The config file uses standard mirage format (same as ~/.config/mirage/config)
+# Try /usr/local/bin first (manual install), then /usr/bin (package install)
+ExecStart=/bin/bash -c 'if [ -x /usr/local/bin/mirage ]; then MIRAGE_BIN="/usr/local/bin/mirage"; elif [ -x /usr/bin/mirage ]; then MIRAGE_BIN="/usr/bin/mirage"; else echo "mirage binary not found"; exit 1; fi; exec "$MIRAGE_BIN" --save /etc/pacman.d/mirrorlist $(grep -v "^#" /etc/mirage/mirage.conf | grep -v "^[[:space:]]*$" | tr "\\n" " ")'
+
+# Backup the previous mirrorlist before updating
+ExecStartPre=/usr/bin/cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.backup
+
+# Validate the new mirrorlist was created successfully
+ExecStartPost=/usr/bin/test -f /etc/pacman.d/mirrorlist
+ExecStartPost=/usr/bin/test -s /etc/pacman.d/mirrorlist
+
+# Restore backup on failure
+ExecStopPost=/bin/bash -c 'if [ $SERVICE_RESULT != "success" ]; then cp /etc/pacman.d/mirrorlist.backup /etc/pacman.d/mirrorlist; fi'
+
+# Timeout and restart settings
+TimeoutStartSec=300
+Restart=no
+
+[Install]
+WantedBy=multi-user.target

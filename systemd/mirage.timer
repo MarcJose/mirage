@@ -1,0 +1,18 @@
+[Unit]
+Description=Update Arch Linux mirrors daily
+Documentation=man:mirage(1)
+Requires=mirage.service
+
+[Timer]
+# Run daily at 6 AM
+OnCalendar=daily
+Persistent=yes
+
+# Add randomization to spread load across mirror servers
+RandomizedDelaySec=3600
+
+# Prevent running if system was suspended
+WakeSystem=no
+
+[Install]
+WantedBy=timers.target

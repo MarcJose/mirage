@@ -1,0 +1,105 @@
+[package]
+name = "mirage"
+version = "1.0.0"
+edition = "2024"
+authors = ["Marc Jose <marc@hahn-jose.de>"]
+description = "A command-line tool for retrieving and filtering Arch Linux mirrors, similar to reflector"
+documentation = "https://docs.rs/mirage"
+readme = "README.md"
+homepage = "https://github.com/MarcJose/mirage"
+repository = "https://github.com/MarcJose/mirage"
+license = "MIT"
+keywords = ["arch", "linux", "mirrors", "reflector", "cli"]
+categories = ["command-line-utilities", "network-programming"]
+rust-version = "1.89"
+
+[dependencies]
+# Command-line argument parsing with derive macros for easy CLI definition
+clap = { version = "4.5", features = ["derive"] }
+
+# HTTP client library for making requests to the Arch Linux Mirror Status API
+# - json feature: Automatic JSON deserialization support
+# - rustls-tls: Use rustls instead of native-tls to avoid openssl dependency
+reqwest = { version = "0.12", features = ["json", "rustls-tls"], default-features = false }
+
+# Serialization framework for parsing JSON responses from mirror API
+# - derive feature: Automatic derive macros for Serialize/Deserialize traits
+serde = { version = "1.0", features = ["derive"] }
+
+# JSON serialization/deserialization (used implicitly by reqwest's json feature)
+serde_json = "1.0"
+
+# Async runtime for handling HTTP requests and concurrent mirror rating
+# - full feature: Includes all tokio features (runtime, net, time, sync, etc.)
+tokio = { version = "1.47", features = ["full"] }
+
+# Date and time library for parsing mirror sync timestamps and generating output timestamps
+# - serde feature: Serialization/deserialization support for datetime types
+chrono = { version = "0.4", features = ["serde"] }
+
+# Regular expression library for include/exclude pattern matching on mirror URLs
+regex = "1.11"
+
+# Error handling with custom derive macros for better error messages
+thiserror = "2.0"
+
+# Progress indicators for better user experience
+indicatif = "0.18"
+
+# Colored output for better UX
+colored = "3.0"
+
+# Structured logging with tracing
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+
+# Shell completion generation
+clap_complete = "4.5"
+
+[dev-dependencies]
+# Temporary file/directory creation for testing
+tempfile = "3.21"
+
+# Additional testing utilities
+tokio-test = "0.4"
+
+# Mock HTTP server for testing performance functions
+wiremock = "0.6"
+
+# Manage large dependency graphs
+cargo-deny = "0.18"
+
+# Determine code coverage achieved via tests
+cargo-tarpaulin = "0.32"
+
+[lib]
+name = "mirage"
+path = "src/lib.rs"
+
+[[bin]]
+name = "mirage"
+path = "src/main.rs"
+
+[profile.release]
+# Optimize for size and performance in release builds
+opt-level = 3
+lto = true
+codegen-units = 1
+panic = "abort"
+
+[package.metadata.docs.rs]
+# Documentation generation settings
+all-features = true
+rustdoc-args = ["--cfg", "docsrs"]
+
+[package.metadata.tarpaulin]
+# Tarpaulin code coverage configuration
+timeout = 120
+out = ["Html", "Xml", "Lcov"]
+output-dir = "coverage/"
+exclude-files = ["!(src/*)"]
+
+[package.metadata.man]
+# Man page configuration
+man-page = "man/mirage.1"
+install-section = 1

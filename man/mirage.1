@@ -1,0 +1,274 @@
+.TH MIRAGE 1 "August 2025" "mirage 1.0.0" "User Commands"
+.SH NAME
+mirage \- retrieve and filter a list of the latest Arch Linux mirrors
+.SH SYNOPSIS
+.B mirage
+[\fIOPTION\fR]...
+.SH DESCRIPTION
+.B mirage
+is a command-line tool for retrieving and filtering Arch Linux mirrors, similar to reflector. It fetches mirror data from the Arch Linux Mirror Status API and allows filtering, sorting, and outputting mirrors based on various criteria such as location, protocol, synchronization status, and performance metrics.
+
+The tool supports configuration files and provides extensive filtering options to help users find the most suitable mirrors for their needs.
+
+.SH OPTIONS
+.SS Connection Options
+.TP
+.BR \-\-connection\-timeout " \fIn\fR"
+The number of seconds to wait before a connection times out. Default: 5
+.TP
+.BR \-\-download\-timeout " \fIn\fR"
+The number of seconds to wait before a download times out. Default: 5
+.TP
+.BR \-\-cache\-timeout " \fIn\fR"
+The cache timeout in seconds for the data retrieved from the Arch Linux Mirror Status API. Default: 300
+.TP
+.BR \-\-url " \fIURL\fR"
+The URL from which to retrieve the mirror data in JSON format. Default: https://archlinux.org/mirrors/status/json/
+.TP
+.BR \-\-threads " \fIn\fR"
+Use n threads for rating mirrors when using rate-based sorting or fastest selection.
+
+.SS Filtering Options
+.TP
+.BR \-a ", " \-\-age " \fIn\fR"
+Only return mirrors that have synchronized in the last n hours.
+.TP
+.BR \-\-delay " \fIn\fR"
+Only return mirrors with a reported sync delay of n hours or less.
+.TP
+.BR \-c ", " \-\-country " \fIcountry\fR"
+Restrict mirrors to selected countries. Can be specified multiple times. Accepts country names or country codes.
+.TP
+.BR \-p ", " \-\-protocol " \fIprotocol\fR"
+Match one of the given protocols (e.g., http, https, ftp). Can be specified multiple times.
+.TP
+.BR \-\-completion\-percent " \fI0\-100\fR"
+Set the minimum completion percent for the returned mirrors. Default: 100.0
+.TP
+.BR \-\-isos
+Only return mirrors that host ISOs.
+.TP
+.BR \-\-ipv4
+Only return mirrors that support IPv4.
+.TP
+.BR \-\-ipv6
+Only return mirrors that support IPv6.
+.TP
+.BR \-i ", " \-\-include " \fIregex\fR"
+Include servers that match the given regular expression.
+.TP
+.BR \-x ", " \-\-exclude " \fIregex\fR"
+Exclude servers that match the given regular expression.
+
+.SS Output Options
+.TP
+.BR \-\-sort " \fIMETHOD\fR"
+Sort the mirrorlist. Valid methods are: age, rate, country, score, delay, duration, duration-std
+.TP
+.BR \-f ", " \-\-fastest " \fIn\fR"
+Return the n fastest mirrors that meet the other criteria.
+.TP
+.BR \-l ", " \-\-latest " \fIn\fR"
+Limit the list to the n most recently synchronized servers.
+.TP
+.BR \-\-score " \fIn\fR"
+Limit the list to the n servers with the highest score.
+.TP
+.BR \-n ", " \-\-number " \fIn\fR"
+Return at most n mirrors.
+.TP
+.BR \-\-save " \fIfilepath\fR"
+Save the mirrorlist to the given path.
+.TP
+.BR \-\-info
+Print mirror information instead of a mirror list.
+.TP
+.BR \-\-list\-countries
+Display a table of the distribution of servers by country.
+.TP
+.BR \-\-verbose
+Print extra information to STDERR.
+.TP
+.BR \-q ", " \-\-quiet
+Suppress all informational output and only print the mirrorlist. Useful for scripts and automation.
+
+.SH CONFIGURATION FILES
+.B mirage
+supports configuration files that use the same syntax as command-line arguments. Configuration files are searched in the following locations, in order:
+.PP
+.RS
+1. $XDG_CONFIG_HOME/mirage/config
+.br
+2. ~/.config/mirage/config
+.br
+3. ~/.mirage/config
+.RE
+.PP
+The configuration file format supports:
+.IP \(bu 2
+One argument per line
+.IP \(bu 2
+Comments starting with #
+.IP \(bu 2
+Empty lines (ignored)
+.IP \(bu 2
+Quoted arguments with spaces
+.PP
+Command-line arguments take precedence over configuration file settings.
+
+.SH EXAMPLES
+.SS Basic Usage
+List all available mirrors:
+.PP
+.RS
+.B mirage
+.RE
+.PP
+Get the 10 most recently synchronized mirrors from Germany:
+.PP
+.RS
+.B mirage \-\-country Germany \-\-latest 10
+.RE
+.PP
+Get mirrors that support HTTPS and IPv6:
+.PP
+.RS
+.B mirage \-\-protocol https \-\-ipv6
+.RE
+
+.SS Advanced Filtering
+Get the 5 fastest mirrors that synchronized within the last 6 hours:
+.PP
+.RS
+.B mirage \-\-age 6 \-\-fastest 5
+.RE
+.PP
+Exclude slow mirrors and get only the best ones:
+.PP
+.RS
+.B mirage \-\-delay 1 \-\-completion\-percent 100 \-\-sort score \-\-number 5
+.RE
+.PP
+Find mirrors matching a specific pattern:
+.PP
+.RS
+.B mirage \-\-include "kernel\\.org" \-\-protocol https
+.RE
+
+.SS Output and Information
+Save a mirrorlist to a file:
+.PP
+.RS
+.B mirage \-\-country "United States" \-\-protocol https \-\-save /etc/pacman.d/mirrorlist
+.RE
+.PP
+Get detailed information about mirrors:
+.PP
+.RS
+.B mirage \-\-info \-\-country Germany \-\-fastest 3
+.RE
+.PP
+Show distribution of mirrors by country:
+.PP
+.RS
+.B mirage \-\-list\-countries
+.RE
+
+.SS Configuration File Example
+Create ~/.config/mirage/config:
+.PP
+.RS
+.nf
+# Default configuration for mirage
+\-\-country Germany
+\-\-country "United States"
+\-\-protocol https
+\-\-completion\-percent 95
+\-\-age 24
+\-\-sort score
+.fi
+.RE
+
+.SH SORTING METHODS
+.TP
+.B age
+Sort by synchronization age (most recent first).
+.TP
+.B rate, score
+Sort by mirror score/rating (highest first).
+.TP
+.B country
+Sort alphabetically by country name.
+.TP
+.B delay
+Sort by synchronization delay (lowest first).
+.TP
+.B duration
+Sort by average connection duration (fastest first).
+.TP
+.B duration\-std
+Sort by connection duration standard deviation (most consistent first).
+
+.SH OUTPUT FORMAT
+By default, \fBmirage\fR outputs a standard pacman mirrorlist format:
+.PP
+.RS
+.nf
+# Arch Linux mirrorlist generated by mirage
+# Generated on 2025-08-14 12:00:00 UTC
+
+# Germany: https://mirror.example.de/archlinux/
+Server = https://mirror.example.de/archlinux/$repo/os/$arch
+
+# United States: https://mirror.example.com/archlinux/
+Server = https://mirror.example.com/archlinux/$repo/os/$arch
+.fi
+.RE
+.PP
+When using \fB\-\-info\fR, detailed information about each mirror is displayed instead.
+
+.SH EXIT STATUS
+.TP
+.B 0
+Success
+.TP
+.B 1
+Error occurred (e.g., network failure, invalid arguments, file write error)
+
+.SH FILES
+.TP
+.I $XDG_CONFIG_HOME/mirage/config
+User configuration file (XDG Base Directory Specification)
+.TP
+.I ~/.config/mirage/config
+User configuration file (fallback location)
+.TP
+.I ~/.mirage/config
+User configuration file (legacy location)
+.TP
+.I /etc/pacman.d/mirrorlist
+Default location where generated mirrorlist is often saved
+
+.SH ENVIRONMENT
+.TP
+.B XDG_CONFIG_HOME
+Directory for user configuration files. If not set, defaults to ~/.config
+.TP
+.B HOME
+User's home directory, used for fallback configuration file locations
+
+.SH SEE ALSO
+.BR pacman (8),
+.BR pacman.conf (5),
+.BR reflector (1)
+
+.SH BUGS
+Report bugs at: https://github.com/MarcJose/mirage/issues
+
+.SH AUTHOR
+Written by Marc Jose <marc@hahn-jose.de>
+
+.SH COPYRIGHT
+Copyright \(co 2025 Marc Jose. Licensed under MIT.
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.

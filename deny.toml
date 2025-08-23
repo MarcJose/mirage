@@ -1,0 +1,58 @@
+# cargo-deny configuration file for security and license compliance
+# https://embarkstudios.github.io/cargo-deny/
+
+[graph]
+targets = [
+    { triple = "x86_64-unknown-linux-gnu" },
+    { triple = "x86_64-unknown-linux-musl" },
+    { triple = "aarch64-unknown-linux-gnu" },
+]
+all-features = true
+
+[output]
+feature-depth = 1
+
+[advisories]
+version = 2
+db-path = "~/.local/share/cargo/advisory-db"
+db-urls = ["https://github.com/rustsec/advisory-db"]
+ignore = [
+    # Add specific advisory IDs to ignore if needed
+    # Example: "RUSTSEC-2023-0001",
+]
+
+[licenses]
+version = 2
+confidence-threshold = 0.8
+# Allow common permissive licenses
+allow = [
+    "MIT",
+    "Apache-2.0",
+    "BSD-3-Clause",
+    "Unicode-3.0",
+    "MPL-2.0",
+    "ISC",
+    "CDLA-Permissive-2.0",
+]
+
+[bans]
+multiple-versions = "warn"
+wildcards = "deny"
+highlight = "all"
+workspace-default-features = "allow"
+external-default-features = "allow"
+
+# Ban specific problematic crates
+[[bans.deny]]
+name = "openssl"
+version = "*"
+
+[[bans.deny]] 
+name = "git2"
+version = "<0.15"
+
+[sources]
+unknown-registry = "deny"
+unknown-git = "deny"
+allow-registry = ["https://github.com/rust-lang/crates.io-index"]
+allow-git = []

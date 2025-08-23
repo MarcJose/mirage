@@ -1,0 +1,11 @@
+# tmpfiles.d configuration for mirage
+# This file ensures proper directory structure and permissions
+
+# Create mirage configuration directory with proper permissions
+d /etc/mirage 0755 root root -
+
+# Ensure pacman.d directory exists and has correct permissions
+d /etc/pacman.d 0755 root root -
+
+# Create log directory for mirage if needed (optional)
+# d /var/log/mirage 0755 root root -
