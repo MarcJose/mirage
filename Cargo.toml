@@ -70,7 +70,7 @@ wiremock = "0.6"
 cargo-deny = "0.18"
 
 # Determine code coverage achieved via tests
-cargo-tarpaulin = "0.32"
+cargo-tarpaulin = "0.33"
 
 [lib]
 name = "mirage"
