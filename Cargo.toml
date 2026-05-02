@@ -20,7 +20,7 @@ clap = { version = "4.5", features = ["derive"] }
 # HTTP client library for making requests to the Arch Linux Mirror Status API
 # - json feature: Automatic JSON deserialization support
 # - rustls-tls: Use rustls instead of native-tls to avoid openssl dependency
-reqwest = { version = "0.12", features = ["json", "rustls-tls"], default-features = false }
+reqwest = { version = "0.13", features = ["json", "rustls-tls"], default-features = false }
 
 # Serialization framework for parsing JSON responses from mirror API
 # - derive feature: Automatic derive macros for Serialize/Deserialize traits
